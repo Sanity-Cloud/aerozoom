@@ -70,5 +70,11 @@ selectedExe := isX64
     ? exeMap64.Get(chkModRaw, "AeroZoom_MouseL_x64.exe")
     : exeMap32.Get(chkModRaw, "AeroZoom_MouseL.exe")
 
-Run('"' A_WorkingDir '\Data\' selectedExe '"')
+targetExe := A_WorkingDir "\Data\" selectedExe
+if !FileExist(targetExe) {
+    MsgBox("The selected AeroZoom engine executable is missing.`n`nSelected modifier: " (chkModRaw = "" ? "<default>" : chkModRaw) "`nExpected target:`n" targetExe "`n`nRun scripts\Inventory-AhkAssets.ps1 to confirm whether compiled payloads are present in this checkout.", "AeroZoom", "Iconx")
+    ExitApp()
+}
+
+Run('"' targetExe '"')
 ExitApp()
